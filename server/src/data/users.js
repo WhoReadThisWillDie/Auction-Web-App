@@ -1,17 +1,17 @@
 let users = [
     {
         "id": 1,
-        "username": "user1",
-        "email": "user1@example.com",
+        "username": "user",
+        "email": "user@example.com",
         "password": "hashed_password_1",
-        "isAdmin": false
+        "role": "user"
     },
     {
         "id": 2,
         "username": "admin",
         "email": "admin@example.com",
         "password": "hashed_password_2",
-        "isAdmin": true
+        "role": "admin"
     }
 ]
 

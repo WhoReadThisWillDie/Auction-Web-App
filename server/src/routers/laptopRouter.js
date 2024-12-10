@@ -1,17 +1,13 @@
 import express from 'express'
-import * as controller from "../controllers/laptopControler.js";
+import * as laptopController from "../controllers/laptopController.js";
 
 const router = express.Router()
 
-router.get('/', controller.getAllLaptops)
+router.get('/', laptopController.getAllLaptops)
+router.post('/', laptopController.createLaptop)
 
-router.get('/:id')
-router.post('/:id')
-router.put('/:id')
-router.delete('/:id')
-
-router.get('/:id/bids')
-router.post('/:id/bids')
-router.delete('/:id/bids')
+router.get('/:id', laptopController.getLaptopById)
+router.put('/:id', laptopController.editLaptop)
+router.delete('/:id', laptopController.deleteLaptop)
 
 export default router
