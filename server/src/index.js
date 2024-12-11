@@ -1,11 +1,17 @@
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import usersRouter from './routers/userRouter.js'
 import laptopsRouter from './routers/laptopRouter.js'
-import auctionRouter from "./routers/auctionRouter.js"
+import auctionRouter from './routers/auctionRouter.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({path: path.resolve(__dirname, '.env')})
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(cors())

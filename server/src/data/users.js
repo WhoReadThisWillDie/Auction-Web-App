@@ -1,17 +1,17 @@
 let users = [
     {
         "id": 1,
-        "username": "user",
-        "email": "user@example.com",
-        "password": "hashed_password_1",
-        "role": "user"
+        "username": "admin",
+        "email": "admin@example.com",
+        "password": "$2b$10$KFtwGCszSUSnsuJLjTfdde.6H6ybyk3FaoCb1o9CmryKMS1YTLjIO",
+        "role": "admin"
     },
     {
         "id": 2,
-        "username": "admin",
-        "email": "admin@example.com",
-        "password": "hashed_password_2",
-        "role": "admin"
+        "username": "user",
+        "email": "user@example.com",
+        "password": "$2b$10$a0Q/rWm/rUjRafisYvkT5uCt8gJmhEmhKXzUEt4BcuBoHHzXsFyv.",
+        "role": "user"
     }
 ]
 

@@ -1,18 +1,18 @@
 import express from 'express'
-import * as controller from '../controllers/auctionController.js'
-import * as bidController from "../controllers/bidController.js";
+import * as auctionController from '../controllers/auctionController.js'
+import {getAllBids, createBid, deleteBid} from '../controllers/bidController.js'
 
 const router = express.Router()
 
-router.get("/", controller.getAllAuctions)
-router.post("/", controller.createAuction)
+router.get("/", auctionController.getAllAuctions)
+router.post("/", auctionController.createAuction)
 
-router.get("/:id", controller.getAuctionById)
-router.put("/:id", controller.editAuction)
-router.delete("/:id", controller.deleteAuction)
+router.get("/:id", auctionController.getAuctionById)
+router.put("/:id", auctionController.editAuction)
+router.delete("/:id", auctionController.deleteAuction)
 
-router.get('/:id/bids', bidController.getAllBids)
-router.post('/:id/bids', bidController.createBid)
-router.delete('/:id/bids', bidController.deleteBid)
+router.get('/:id/bids', getAllBids)
+router.post('/:id/bids', createBid)
+router.delete('/:id/bids', deleteBid)
 
 export default router
