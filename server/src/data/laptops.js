@@ -5,7 +5,7 @@ let laptops = [
         "brand": "Asus",
         "processor": "AMD Ryzen 7 5800H",
         "graphicsCard": "NVIDIA GeForce RTX 3060",
-        "ram": "16GB",
+        "ram": "8GB",
         "ssd": "512GB"
     },
     {
@@ -87,6 +87,15 @@ let laptops = [
         "processor": "Intel Core i7-11375H",
         "graphicsCard": "NVIDIA GeForce GTX 1660 Ti",
         "ram": "16GB",
+        "ssd": "512GB"
+    },
+    {
+        "id": 11,
+        "name": "Alienware m17 R5",
+        "brand": "Alienware",
+        "processor": "AMD Ryzen 7 5800H",
+        "graphicsCard": "AMD Radeon RX 6850 XT",
+        "ram": "32GB",
         "ssd": "512GB"
     }
 ]
