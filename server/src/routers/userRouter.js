@@ -1,18 +1,15 @@
 import express from 'express'
-import * as controller from "../controllers/userController.js";
+import * as userController from "../controllers/userController.js";
+import {isLoggedIn} from "../middleware/middleware.js";
 
 const router = express.Router()
 
-router.get('/:id')
+router.post('/', userController.createUser)
 
-router.get('/register')
+router.get('/:id', isLoggedIn, userController.getUserById)
 
-router.get('/login')
+router.get('/:id/bids', isLoggedIn, userController.getUserBids)
 
-router.get('/token')
-
-router.get('/:id/bids')
-
-router.get('/:id/won')
+router.get('/:id/won', isLoggedIn, userController.getUserAuctions)
 
 export default router

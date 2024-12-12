@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import usersRouter from './routers/userRouter.js'
 import laptopsRouter from './routers/laptopRouter.js'
 import auctionRouter from './routers/auctionRouter.js'
+import tokensRouter from "./routers/tokenRouter.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({path: path.resolve(__dirname, '.env')})
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/users', usersRouter)
+app.use('/tokens', tokensRouter)
 app.use('/laptops', laptopsRouter)
 app.use('/auctions', auctionRouter)
 
