@@ -25,4 +25,4 @@ let auctions = [
     }
 ]
 
-export default auctions;
+export default auctions

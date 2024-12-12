@@ -1,14 +1,15 @@
 import express from 'express'
-import * as laptopController from "../controllers/laptopController.js";
+import * as laptopController from "../controllers/laptopController.js"
+import {isAdmin} from "../middleware/middleware.js";
 
 const router = express.Router()
 
 router.get('/', laptopController.getAllLaptops)
-router.post('/', laptopController.createLaptop)
+router.post('/', isAdmin, laptopController.createLaptop)
 
 router.get('/:id', laptopController.getLaptopById)
-router.patch('/:id', laptopController.editLaptop)
-router.delete('/:id', laptopController.deleteLaptop)
+router.patch('/:id', isAdmin, laptopController.editLaptop)
+router.delete('/:id', isAdmin, laptopController.deleteLaptop)
 
 router.get('/:id/auctions', laptopController.getLaptopAuctions)
 

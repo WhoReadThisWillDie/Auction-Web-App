@@ -1,17 +1,17 @@
 import express from 'express'
 import * as auctionController from '../controllers/auctionController.js'
-import {isLoggedIn} from "../middleware/middleware.js";
+import {isAdmin, isNotAdmin} from "../middleware/middleware.js"
 
 const router = express.Router()
 
 router.get("/", auctionController.getAllAuctions)
-router.post("/", auctionController.createAuction)
+router.post("/", isAdmin, auctionController.createAuction)
 
 router.get("/:id", auctionController.getAuctionById)
-router.patch("/:id", auctionController.editAuction)
-router.delete("/:id", auctionController.deleteAuction)
+router.patch("/:id", isAdmin, auctionController.editAuction)
+router.delete("/:id", isAdmin, auctionController.deleteAuction)
 
-router.get('/:id/bids', isLoggedIn, auctionController.getAuctionBids)
-router.post('/:id/bids', isLoggedIn, auctionController.createBidForAuction)
+router.get('/:id/bids', isNotAdmin, auctionController.getAuctionBids)
+router.post('/:id/bids', isNotAdmin, auctionController.createBidForAuction)
 
 export default router

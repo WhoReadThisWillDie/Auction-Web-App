@@ -1,5 +1,5 @@
-import laptops from "../data/laptops.js";
-import auctions from "../data/auctions.js";
+import laptops from "../data/laptops.js"
+import auctions from "../data/auctions.js"
 
 export function getAllLaptops(req, res) {
     res.json(laptops)
@@ -68,6 +68,6 @@ export function deleteLaptop(req, res) {
     }
 
     laptops.splice(laptopIndex, 1)
-    auctions.splice(0, auctions.length, ...auctions.filter(auction => auction.laptopId !== laptopId));
+    auctions.splice(0, auctions.length, ...auctions.filter(auction => auction.laptopId !== laptopId))
     res.status(200).send({message: "Laptop deleted successfully"})
 }

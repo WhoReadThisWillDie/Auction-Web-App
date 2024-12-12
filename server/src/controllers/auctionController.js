@@ -1,6 +1,6 @@
 import auctions from "../data/auctions.js"
 import bids from "../data/bids.js"
-import users from "../data/users.js";
+import users from "../data/users.js"
 
 function calculateCurrentPrice(auction) {
     const auctionBids = bids.filter(bid => bid.auctionId === auction.id)
@@ -54,25 +54,26 @@ export function createAuction(req, res) {
 export function createBidForAuction(req, res) {
     const newBid = {
         id: bids.length + 1,
-        auctionId: parseInt(req.params.id), ...req.body,
+        auctionId: parseInt(req.params.id),
+        userId: req.userId,
+        ...req.body,
         dateTime: new Date().toISOString()
     }
     const auctionId = auctions.findIndex(auction => auction.id === parseInt(req.params.id))
 
-    if (req.body.auctionId || req.body.dateTime) {
-        return res.status(400).send({error: "AuctionId and dateTime should not be specified manually"})
+
+
+    if (req.body.auctionId || req.body.userId || req.body.dateTime) {
+        return res.status(400).send({error: "AuctionId, userId and dateTime should not be specified manually"})
     }
     if (auctionId === -1) {
         return res.status(404).send({error: "Auction with this id does not exist"})
     }
-    if (!newBid.initialPrice || !newBid.userId) {
-        return res.status(400).send({error: "Missing required fields"})
-    }
     if (!users.find(user => user.id === newBid.userId)) {
         return res.status(400).send({message: "User with this id does not exist"})
     }
-    if (new Date(newBid.dateTime) < new Date()) {
-        return res.status(400).send({message: "Invalid date"})
+    if (!newBid.initialPrice) {
+        return res.status(400).send({error: "Missing required fields"})
     }
 
     bids.push(newBid)
@@ -80,26 +81,26 @@ export function createBidForAuction(req, res) {
 }
 
 export function editAuction(req, res) {
-    const auctionId = parseInt(req.params.id);
+    const auctionId = parseInt(req.params.id)
 
-    const auctionIndex = auctions.findIndex(auction => auction.id === auctionId);
+    const auctionIndex = auctions.findIndex(auction => auction.id === auctionId)
     if (auctionIndex === -1) {
-        return res.status(404).send({error: "Auction with this id does not exist"});
+        return res.status(404).send({error: "Auction with this id does not exist"})
     }
     if (req.body.id) {
         return res.status(400).send({error: "AuctionId should not be specified manually"})
     }
 
-    const updatedAuction = {id: auctionId, ...auctions[auctionIndex], ...req.body};
+    const updatedAuction = {id: auctionId, ...auctions[auctionIndex], ...req.body}
     if (!updatedAuction.laptopId || !updatedAuction.initialPrice || !updatedAuction.endTime) {
-        return res.status(400).send({error: "Missing required fields"});
+        return res.status(400).send({error: "Missing required fields"})
     }
     if (new Date(updatedAuction.dateTime) < new Date()) {
         return res.status(400).send({error: "Invalid date"})
     }
 
-    auctions[auctionIndex] = updatedAuction;
-    res.status(200).send({message: "Auction updated successfully"});
+    auctions[auctionIndex] = updatedAuction
+    res.status(200).send({message: "Auction updated successfully"})
 }
 
 export function deleteAuction(req, res) {
@@ -111,6 +112,6 @@ export function deleteAuction(req, res) {
     }
 
     auctions.splice(auctionIndex, 1)
-    bids.splice(0, bids.length, ...bids.filter(bid => bid.auctionId !== auctionId));
+    bids.splice(0, bids.length, ...bids.filter(bid => bid.auctionId !== auctionId))
     res.status(200).send({message: "Auction deleted successfully"})
 }

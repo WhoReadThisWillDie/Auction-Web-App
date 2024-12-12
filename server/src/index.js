@@ -6,9 +6,9 @@ import { fileURLToPath } from 'url'
 import usersRouter from './routers/userRouter.js'
 import laptopsRouter from './routers/laptopRouter.js'
 import auctionRouter from './routers/auctionRouter.js'
-import tokensRouter from "./routers/tokenRouter.js";
+import tokensRouter from "./routers/tokenRouter.js"
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({path: path.resolve(__dirname, '.env')})
 
 const app = express()
@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use((req, res, next) => {
-    console.log(`Received ${req.method} for ${req.url}`);
+    console.log(`Received ${req.method} for ${req.url}`)
     next()
 })
 
