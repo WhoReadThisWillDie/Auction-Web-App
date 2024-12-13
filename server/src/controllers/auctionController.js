@@ -1,6 +1,7 @@
 import auctions from "../data/auctions.js"
 import bids from "../data/bids.js"
 import users from "../data/users.js"
+import * as auctionFilters from "../filters/auctionFilters.js";
 
 function calculateCurrentPrice(auction) {
     const auctionBids = bids.filter(bid => bid.auctionId === auction.id)
@@ -9,11 +10,26 @@ function calculateCurrentPrice(auction) {
 }
 
 export function getAllAuctions(req, res) {
-    for (const auction of auctions) {
+    let result = Array.from(auctions)
+    for (const auction of result) {
         auction.currentPrice = calculateCurrentPrice(auction)
+
     }
 
-    res.json(auctions)
+    if (req.query.lowestPrice) {
+        result = auctionFilters.filterAuctionsByLowestPrice(req.query.lowestPrice, result)
+    }
+    if (req.query.highestPrice) {
+        result = auctionFilters.filterAuctionsByHighestPrice(req.query.highestPrice, result)
+    }
+    if (req.query.endTime) {
+        result = auctionFilters.filterAuctionsByEndTime(req.query.endTime, result)
+    }
+    if (req.query.laptopName) {
+        result = auctionFilters.filterAuctionsByLaptopName(req.query.laptopName, result)
+    }
+
+    res.json(result)
 }
 
 export function getAuctionById(req, res) {
@@ -43,6 +59,9 @@ export function getAuctionBids(req, res) {
 export function createAuction(req, res) {
     const newAuction = {id: auctions.length + 1, ...req.body}
 
+    if (req.body.id) {
+        return res.status(400).send({error: "Id should not be specified manually"})
+    }
     if (!newAuction.laptopId || !newAuction.initialPrice || !newAuction.endTime) {
         return res.status(400).send({error: "Missing required fields"})
     }
@@ -63,8 +82,8 @@ export function createBidForAuction(req, res) {
 
 
 
-    if (req.body.auctionId || req.body.userId || req.body.dateTime) {
-        return res.status(400).send({error: "AuctionId, userId and dateTime should not be specified manually"})
+    if (req.body.id || req.body.auctionId || req.body.userId || req.body.dateTime) {
+        return res.status(400).send({error: "Id, auctionId, userId and dateTime should not be specified manually"})
     }
     if (auctionId === -1) {
         return res.status(404).send({error: "Auction with this id does not exist"})
