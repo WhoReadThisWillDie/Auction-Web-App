@@ -1,0 +1,193 @@
+### Get data of laptop with existing id
+GET {{protocol}}{{host}}:{{port}}/laptops/2
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.id !== undefined, "Response body is empty");
+        }
+    );
+%}
+
+### Get data of a non-existing laptop
+GET {{protocol}}{{host}}:{{port}}/laptops/999
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Laptop not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}
+
+### Get auctions of a laptop with existing id
+GET {{protocol}}{{host}}:{{port}}/laptops/2/auctions
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.length !== 0, "Response body is empty");
+        }
+    );
+%}
+
+### Create laptop
+POST {{protocol}}{{host}}:{{port}}/laptops
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Asus TUF Gaming F15",
+  "brand": "Asus",
+  "processor": "Intel Core i7-12700H",
+  "graphicsCard": "NVIDIA GeForce RTX 3070",
+  "ram": "16GB",
+  "ssd": "512GB"
+}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 201, "Response status is not 201");
+        }
+    )
+
+    client.test(
+        "Response body contains success message",
+        function() {
+            client.assert(response.body.message === "Laptop created successfully", "Message not found in response body");
+        }
+    );
+%}
+
+### Create laptop with missing required fields
+POST {{protocol}}{{host}}:{{port}}/laptops
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "HP Omen 17",
+  "brand": "HP",
+  "processor": "Intel Core i9-11900K",
+  "ram": "16GB"
+}
+
+> {%
+    client.test(
+        "Request failed due to missing fields",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Create laptop with invalid field
+POST {{protocol}}{{host}}:{{port}}/laptops
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "name": "Lenovo Legion 5 Pro",
+  "brand": "Lenovo",
+  "processor": "Intel Core i7-11800H",
+  "graphicsCard": "NVIDIA GeForce RTX 3060",
+  "ram": "16GB",
+  "ssd": "512GB",
+  "id": 100
+}
+
+> {%
+    client.test(
+        "Request failed due to invalid ID",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Edit laptop
+PATCH {{protocol}}{{host}}:{{port}}/laptops/2
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "ram": "32GB",
+  "ssd": "1TB"
+}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+%}
+
+### Delete laptop
+DELETE {{protocol}}{{host}}:{{port}}/laptops/2
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Laptop deleted successfully",
+        function() {
+            client.assert(response.body.message === "Laptop deleted successfully", "Message not found in response body");
+        }
+    );
+%}
+
+### Delete non-existing laptop
+DELETE {{protocol}}{{host}}:{{port}}/laptops/999
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test(
+        "Laptop not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}

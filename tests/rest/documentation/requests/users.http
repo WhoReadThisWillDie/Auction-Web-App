@@ -1,0 +1,145 @@
+### Get data of user with existing id
+GET {{protocol}}{{host}}:{{port}}/users/2
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.id !== undefined, "Response body is empty");
+        }
+    );
+%}
+
+### Get data of a non-existing user
+GET {{protocol}}{{host}}:{{port}}/users/321
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "User not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}
+
+### Get bids of a user with existing id
+GET {{protocol}}{{host}}:{{port}}/users/2/bids
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.length !== undefined, "Response body is empty");
+        }
+    );
+%}
+
+### Create user
+POST {{protocol}}{{host}}:{{port}}/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "user321",
+  "password": "password",
+  "isAdmin": false
+}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 201, "Response status is not 201");
+        }
+    )
+
+    client.test(
+        "Response body contains a token",
+        function() {
+            client.assert(response.body.token !== undefined, "Token not found in response body");
+        }
+    );
+%}
+
+### Create user with invalid username
+POST {{protocol}}{{host}}:{{port}}/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "u",
+  "password": "password",
+  "isAdmin": false
+}
+
+> {%
+    client.test(
+        "Request failed",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Create user with invalid password
+POST {{protocol}}{{host}}:{{port}}/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "user123",
+  "password": "pass",
+  "isAdmin": false
+}
+
+> {%
+    client.test(
+        "Request failed",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Create user with existing username
+POST {{protocol}}{{host}}:{{port}}/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "user123",
+  "password": "password",
+  "isAdmin": false
+}
+
+> {%
+    client.test(
+        "Request failed",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}

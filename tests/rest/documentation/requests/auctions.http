@@ -1,0 +1,212 @@
+### Get data of auction with existing id
+GET {{protocol}}{{host}}:{{port}}/auctions/3
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.id !== undefined, "Response body is empty");
+        }
+    );
+%}
+
+### Get data of a non-existing auction
+GET {{protocol}}{{host}}:{{port}}/auctions/999
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Auction not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}
+
+### Get bids of an auction with existing id
+GET {{protocol}}{{host}}:{{port}}/auctions/3/bids
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body is not empty",
+        function() {
+            client.assert(response.body.length !== 0, "Response body is empty");
+        }
+    );
+%}
+
+### Create auction
+POST {{protocol}}{{host}}:{{port}}/auctions
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "laptopId": 2,
+  "initialPrice": 1500,
+  "endTime": "2024-12-29T12:00:00Z"
+}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 201, "Response status is not 201");
+        }
+    )
+
+    client.test(
+        "Response body contains success message",
+        function() {
+            client.assert(response.body.message === "Auction created successfully", "Message not found in response body");
+        }
+    );
+%}
+
+### Create auction with missing required fields
+POST {{protocol}}{{host}}:{{port}}/auctions
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "laptopId": 2,
+  "initialPrice": 1500
+}
+
+> {%
+    client.test(
+        "Request failed due to missing fields",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Create auction with invalid field
+POST {{protocol}}{{host}}:{{port}}/auctions
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "laptopId": 2,
+  "initialPrice": 1500,
+  "endTime": "2024-12-29T12:00:00Z",
+  "id": 100
+}
+
+> {%
+    client.test(
+        "Request failed due to invalid ID",
+        function() {
+            client.assert(response.status === 400, "Response status is not 400");
+        }
+    )
+%}
+
+### Edit auction
+PATCH {{protocol}}{{host}}:{{port}}/auctions/3
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "initialPrice": 1800,
+  "endTime": "2024-12-30T12:00:00Z"
+}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Auction updated successfully",
+        function() {
+            client.assert(response.body.message === "Auction updated successfully", "Message not found in response body");
+        }
+    );
+%}
+
+### Edit auction with invalid ID
+PATCH {{protocol}}{{host}}:{{port}}/auctions/999
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "initialPrice": 1800,
+  "endTime": "2024-12-30T12:00:00Z"
+}
+
+> {%
+    client.test(
+        "Auction not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}
+
+### Delete auction
+DELETE {{protocol}}{{host}}:{{port}}/auctions/3
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Auction deleted successfully",
+        function() {
+            client.assert(response.body.message === "Auction deleted successfully", "Message not found in response body");
+        }
+    );
+%}
+
+### Delete non-existing auction
+DELETE {{protocol}}{{host}}:{{port}}/auctions/999
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{adminToken}}
+
+> {%
+    client.test(
+        "Auction not found",
+        function() {
+            client.assert(response.status === 404, "Response status is not 404");
+        }
+    )
+%}

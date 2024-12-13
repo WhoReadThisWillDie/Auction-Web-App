@@ -1,0 +1,60 @@
+### Retrieve a token that can be used for calls requiring user authentication
+POST {{protocol}}{{host}}:{{port}}/tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "user123",
+  "password": "password"
+}
+
+> {%
+client.test(
+    "Request executed successfully",
+    function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    }
+)
+
+client.test(
+    "Response body contains a token",
+    function() {
+        client.assert(response.body.token !== undefined, "Token not found in response body");
+    }
+);
+
+client.global.set("userToken", response.body.token);
+%}
+
+### Retrieve a token that can be used for calls requiring admin authentication
+POST {{protocol}}{{host}}:{{port}}/tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+> {%
+    client.global.set("adminToken", response.body.token);
+%}
+
+### Login user with invalid credentials
+POST {{protocol}}{{host}}:{{port}}/tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "user123",
+  "password": "pass"
+}
+
+> {%
+    client.test(
+        "Request failed",
+        function() {
+            client.assert(response.status === 401, "Response status is not 401");
+        }
+    )
+%}
