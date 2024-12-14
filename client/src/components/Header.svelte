@@ -1,11 +1,26 @@
 <script>
-    export let active
+    import { tokenStore } from '../stores/tokenStore.js';
+
+    export let active;
+
+    function logOut() {
+        $tokenStore = null;
+        active = null;
+    }
+
+    $: isLoggedOut = $tokenStore == null;
 </script>
 
 <nav>
-    <a class:active={active === "/laptops"} href="/laptops">Laptops</a>
-    <a class:active={active === "/auctions"} href="/auctions">Auctions</a>
-    <a class:active={active === "/users/:id"} href="/profile">Profile</a>
+    <div class="left-links">
+        <a class:active={active === "/laptops"} href="/laptops">Laptops</a>
+        <a class:active={active === "/auctions"} href="/auctions">Auctions</a>
+        <a class:active={active === "/profile"} href="/profile">Profile</a>
+    </div>
+
+    {#if !isLoggedOut}
+        <a href="/login" on:click={logOut}>Log out</a>
+    {/if}
 </nav>
 
 <style>
@@ -13,9 +28,15 @@
         background-color: var(--blue-dark);
         min-height: 4rem;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        gap: 5rem;
+        width: 100%;
+    }
+
+    .left-links {
+        margin-inline-start: 1rem;
+        display: flex;
+        gap: 3rem;
     }
 
     a {
@@ -41,12 +62,21 @@
         color: var(--blue-dark);
     }
 
+    a:last-child {
+        margin-inline-end: 1rem;
+    }
+
     @media (max-width: 600px) {
         nav {
             gap: 1rem;
             align-items: center;
             padding: 0;
             margin: 0;
+        }
+
+        .left-links {
+            flex-direction: column;
+            gap: 1rem;
         }
     }
 </style>

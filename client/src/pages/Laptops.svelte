@@ -1,12 +1,8 @@
 <script>
-    import Button from "../components/Button.svelte";
-    import InputField from "../components/InputField.svelte";
     import Card from "../components/LaptopCard.svelte";
     import {fetchLaptops} from "../api/fetchLaptops.js";
 </script>
 
-<Button text="Add bid" callback={() => console.log("Clicked")}/>
-<InputField placeholder="Enter text" value=""/>
 <section class="laptop-cards">
     {#await fetchLaptops()}
         <p>Loading...</p>
@@ -33,7 +29,7 @@
     .laptop-cards {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
+        column-gap: 1rem;
         width: 100%;
     }
 

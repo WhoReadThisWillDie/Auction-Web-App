@@ -1,35 +1,46 @@
 import auctions from "../data/auctions.js"
 import bids from "../data/bids.js"
 import users from "../data/users.js"
+import laptops from "../data/laptops.js";
 import * as auctionFilters from "../filters/auctionFilters.js";
 
 function calculateCurrentPrice(auction) {
     const auctionBids = bids.filter(bid => bid.auctionId === auction.id)
     return auctionBids.length > 0
-        ? Math.max(...auctionBids.map(bid => bid.price)) : auction.initialPrice
+        ? Math.max(...auctionBids.map(bid => bid.price), auction.initialPrice) : auction.initialPrice
+}
+
+function getLaptopNameById(laptopId) {
+    const laptop = laptops.find(laptop => laptop.id === laptopId);
+    return laptop ? laptop.name : "Unknown Laptop";
 }
 
 export function getAllAuctions(req, res) {
-    let result = Array.from(auctions)
-    for (const auction of result) {
-        auction.currentPrice = calculateCurrentPrice(auction)
-    }
+    let result = Array.from(auctions);
+
+    result = result.map(auction => ({
+        id: auction.id,
+        currentPrice: calculateCurrentPrice(auction),
+        laptopName: getLaptopNameById(auction.laptopId),
+        endTime: auction.endTime
+    }));
 
     if (req.query.lowestPrice) {
-        result = auctionFilters.filterAuctionsByLowestPrice(req.query.lowestPrice, result)
+        result = auctionFilters.filterAuctionsByLowestPrice(req.query.lowestPrice, result);
     }
     if (req.query.highestPrice) {
-        result = auctionFilters.filterAuctionsByHighestPrice(req.query.highestPrice, result)
+        result = auctionFilters.filterAuctionsByHighestPrice(req.query.highestPrice, result);
     }
     if (req.query.endTime) {
-        result = auctionFilters.filterAuctionsByEndTime(req.query.endTime, result)
+        result = auctionFilters.filterAuctionsByEndTime(req.query.endTime, result);
     }
     if (req.query.laptopName) {
-        result = auctionFilters.filterAuctionsByLaptopName(req.query.laptopName, result)
+        result = auctionFilters.filterAuctionsByLaptopName(req.query.laptopName, result);
     }
 
-    res.json(result)
+    res.json(result);
 }
+
 
 export function getAuctionById(req, res) {
     const auctionId = parseInt(req.params.id)
@@ -39,8 +50,14 @@ export function getAuctionById(req, res) {
         return res.status(404).send({message: "Auction with this id does not exist"})
     }
 
-    auction.currentPrice = calculateCurrentPrice(auction)
-    return res.json(auction)
+    const result = {
+        id: auction.id,
+        currentPrice: calculateCurrentPrice(auction),
+        laptopName: getLaptopNameById(auction.laptopId),
+        endTime: auction.endTime
+    }
+
+    return res.json(result)
 }
 
 export function getAuctionBids(req, res) {

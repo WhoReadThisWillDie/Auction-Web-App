@@ -7,7 +7,7 @@
 
     import {fetchToken} from "../api/fetchToken.js";
     import {decodeToken} from "../jwt/decodeToken.js";
-    import tokenStore from "../stores/tokenStore.js";
+    import {tokenStore} from "../stores/tokenStore.js";
 
     let username = '';
     let password = '';

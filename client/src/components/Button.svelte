@@ -6,8 +6,6 @@
 <button class="button" on:click={callback}>{text}</button>
 
 <style>
-    @import '../root.css';
-
     .button {
         padding: 0.5rem;
         border: none;

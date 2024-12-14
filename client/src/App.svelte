@@ -8,7 +8,8 @@
     import Profile from "./pages/Profile.svelte";
     import Header from './components/Header.svelte'
 
-    import token from "./stores/tokenStore.js";
+    import {tokenStore} from "./stores/tokenStore.js";
+
 
     let page
     let params
@@ -33,13 +34,12 @@
         currentRoute = ctx.pathname
     })
     router('/profile', (ctx) => {
-        if (!$token) {
+        if (!$tokenStore) {
             return router.redirect('/login')
         }
 
         page = Profile
         currentRoute = ctx.pathname
-        params = ctx
     })
 
     router.start()
