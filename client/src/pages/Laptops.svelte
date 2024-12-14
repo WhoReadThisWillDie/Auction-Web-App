@@ -2,11 +2,11 @@
     import Button from "../components/Button.svelte";
     import InputField from "../components/InputField.svelte";
     import Card from "../components/LaptopCard.svelte";
-    import {fetchLaptops} from "../fetchAPI/fetchLaptops.js";
+    import {fetchLaptops} from "../api/fetchLaptops.js";
 </script>
 
 <Button text="Add bid" callback={() => console.log("Clicked")}/>
-<InputField placeholder="Enter text"/>
+<InputField placeholder="Enter text" value=""/>
 <section class="laptop-cards">
     {#await fetchLaptops()}
         <p>Loading...</p>
@@ -24,6 +24,8 @@
                 />
             {/each}
         {/if}
+    {:catch error}
+        <p>Error fetching laptops: {error}</p>
     {/await}
 </section>
 

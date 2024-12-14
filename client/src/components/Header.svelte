@@ -5,7 +5,7 @@
 <nav>
     <a class:active={active === "/laptops"} href="/laptops">Laptops</a>
     <a class:active={active === "/auctions"} href="/auctions">Auctions</a>
-    <a class:active={active === "/users/:id"} href="/users/:id">Profile</a>
+    <a class:active={active === "/users/:id"} href="/profile">Profile</a>
 </nav>
 
 <style>

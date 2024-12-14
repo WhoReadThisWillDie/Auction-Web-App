@@ -1,27 +1,24 @@
 <script>
-    export let title = 'Login';
+    export let title;
     export let onSubmit = () => {};
 </script>
 
-<div class="login-form">
+<div class="form-container">
     <h2>{title}</h2>
     <form on:submit|preventDefault={onSubmit}>
-        <slot name="inputs"></slot>
-        <slot name="button"></slot>
+        <slot class="inputs" name="inputs"></slot>
+        <slot class="button" name="button"></slot>
     </form>
 </div>
 
 <style>
-    .login-form {
+    .form-container {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        max-width: 300px;
-        margin: auto;
-        padding: 2rem;
-        background-color: #f9f9f9;
+        width: 100%;
+        height: 100%;
         border-radius: 0.5rem;
-        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     }
 
     h2 {
@@ -32,6 +29,8 @@
     form {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         gap: 1rem;
     }
 </style>

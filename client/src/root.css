@@ -2,6 +2,7 @@
     --blue: #134074;
     --blue-light: #DCE9F9;
     --blue-dark: #1A2A55;
+    --white-background: #F9F9F9;
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
@@ -9,4 +10,11 @@
 
 body {
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+* {
+    box-sizing: border-box;
 }

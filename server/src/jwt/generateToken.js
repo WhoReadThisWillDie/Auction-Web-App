@@ -7,7 +7,5 @@ export const generateToken = (user) => {
         isAdmin: user.isAdmin
     }
 
-    return jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN || '1h',
-    })
+    return jwt.sign(payload, process.env.JWT_SECRET)
 }

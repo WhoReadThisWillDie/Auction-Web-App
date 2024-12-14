@@ -36,6 +36,8 @@ export function createUser(req, res) {
         return res.status(400).send({message: 'Invalid password'})
     }
 
+    console.log(newUser)
+
     users.push(newUser)
     res.status(201).json({
         message: 'User created successfully',

@@ -16,6 +16,7 @@
         min-width: 10rem;
         min-height: 2.5rem;
         box-sizing: border-box;
+        width: 100%;
     }
 
     .input:focus {

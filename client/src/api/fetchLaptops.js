@@ -4,6 +4,6 @@ export const fetchLaptops = async () => {
         return await response.json()
     }
     catch (error) {
-        console.log("Error fetching laptops", error);
+        throw new Error(error);
     }
 }
