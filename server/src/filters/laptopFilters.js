@@ -3,15 +3,20 @@ export function filterLaptopsByBrand(brands, filteredLaptops) {
     return filteredLaptops.filter(laptop => brandsArray.includes(laptop.brand))
 }
 
-export function filterLaptopsByProcessor(filters, filteredLaptops) {
-    const filtersArray = Array.isArray(filters) ? filters : [filters]
-    return filteredLaptops.filter(laptop => filtersArray.includes(laptop.processor.split(' ')[0]))
+export function filterLaptopsByCpu(filters, filteredLaptops) {
+    const cpusArray = Array.isArray(filters) ? filters : [filters];
+    return filteredLaptops.filter(laptop =>
+        cpusArray.some(filter => laptop.cpu.toLowerCase().includes(filter.toLowerCase()))
+    );
 }
 
-export function filterLaptopsByGraphicsCard(graphicsCards, filteredLaptops) {
-    const graphicsCardsArray = Array.isArray(graphicsCards) ? graphicsCards : [graphicsCards]
-    return filteredLaptops.filter(laptop => graphicsCardsArray.includes(laptop.graphicsCard.split(' ')[0]))
+export function filterLaptopsByGpu(gpus, filteredLaptops) {
+    const gpusArray = Array.isArray(gpus) ? gpus : [gpus];
+    return filteredLaptops.filter(laptop =>
+        gpusArray.some(filter => laptop.gpu.toLowerCase().includes(filter.toLowerCase()))
+    );
 }
+
 
 export function filterLaptopsByRam(rams, filteredLaptops) {
     const ramsArray = Array.isArray(rams) ? rams : [rams]

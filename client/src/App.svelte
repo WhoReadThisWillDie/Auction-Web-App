@@ -4,10 +4,11 @@
     import Home from './pages/Home.svelte'
     import About from './pages/About.svelte'
     import Header from './components/Header.svelte'
+    import Profile from "./pages/Profile.svelte";
 
     let page
     let params
-    let currentRoute
+    let currentRoute;
 
     router('/laptops', (ctx) => {
         page = Home
@@ -15,7 +16,11 @@
     })
     router('/auctions', (ctx) => {
         page = About
-        console.log(ctx)
+        currentRoute = ctx.pathname
+        params = ctx
+    })
+    router('/users/:id', (ctx) => {
+        page = Profile
         currentRoute = ctx.pathname
         params = ctx
     })

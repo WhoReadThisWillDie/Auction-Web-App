@@ -1,9 +1,13 @@
 <script>
-    export let placeholder
-    let value
+    export let placeholder;
+    export let value;
 </script>
 
+<input class="input" placeholder={placeholder} bind:value />
+
 <style>
+    @import '../root.css';
+
     .input {
         padding: 0.5rem;
         border: 0.1rem solid #ccc;
@@ -20,5 +24,3 @@
         box-shadow: 0 0 0.25rem var(--blue);
     }
 </style>
-
-<input class="input" placeholder={placeholder} bind:value/>

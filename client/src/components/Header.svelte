@@ -3,8 +3,9 @@
 </script>
 
 <nav>
-    <a class:active={active === "/"} href="/laptops">Laptops</a>
-    <a class:active={active === "/about"} href="/auctions">Auctions</a>
+    <a class:active={active === "/laptops"} href="/laptops">Laptops</a>
+    <a class:active={active === "/auctions"} href="/auctions">Auctions</a>
+    <a class:active={active === "/users/:id"} href="/users/:id">Profile</a>
 </nav>
 
 <style>
@@ -30,9 +31,22 @@
         font-weight: bold;
     }
 
-    a:hover, a.active {
+    a.active, a:hover {
         background-color: var(--blue-light);
         color: var(--blue-dark);
     }
 
+    a.active {
+        background-color: var(--blue-light);
+        color: var(--blue-dark);
+    }
+
+    @media (max-width: 600px) {
+        nav {
+            gap: 1rem;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+    }
 </style>

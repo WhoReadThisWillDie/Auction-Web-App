@@ -13,7 +13,6 @@ export function getAllAuctions(req, res) {
     let result = Array.from(auctions)
     for (const auction of result) {
         auction.currentPrice = calculateCurrentPrice(auction)
-
     }
 
     if (req.query.lowestPrice) {
@@ -78,21 +77,23 @@ export function createBidForAuction(req, res) {
         ...req.body,
         dateTime: new Date().toISOString()
     }
-    const auctionId = auctions.findIndex(auction => auction.id === parseInt(req.params.id))
-
-
+    const auction = auctions.find(auction => auction.id === parseInt(req.params.id))
+    auction.currentPrice = calculateCurrentPrice(auction)
 
     if (req.body.id || req.body.auctionId || req.body.userId || req.body.dateTime) {
         return res.status(400).send({error: "Id, auctionId, userId and dateTime should not be specified manually"})
     }
-    if (auctionId === -1) {
+    if (!auction) {
         return res.status(404).send({error: "Auction with this id does not exist"})
     }
     if (!users.find(user => user.id === newBid.userId)) {
         return res.status(400).send({message: "User with this id does not exist"})
     }
-    if (!newBid.initialPrice) {
+    if (!newBid.price) {
         return res.status(400).send({error: "Missing required fields"})
+    }
+    if (newBid.price <= auction.currentPrice) {
+        return res.status(400).send({error: "Invalid bid price"})
     }
 
     bids.push(newBid)

@@ -8,11 +8,11 @@ export function getAllLaptops(req, res) {
     if (req.query.brand) {
         result = laptopFilters.filterLaptopsByBrand(req.query.brand, result)
     }
-    if (req.query.processor) {
-        result = laptopFilters.filterLaptopsByProcessor(req.query.processor, result)
+    if (req.query.cpu) {
+        result = laptopFilters.filterLaptopsByCpu(req.query.cpu, result)
     }
-    if (req.query.graphicsCard) {
-        result = laptopFilters.filterLaptopsByGraphicsCard(req.query.graphicsCard, result)
+    if (req.query.gpu) {
+        result = laptopFilters.filterLaptopsByGpu(req.query.gpu, result)
     }
     if (req.query.ram) {
         result = laptopFilters.filterLaptopsByRam(req.query.ram, result)
@@ -53,7 +53,7 @@ export function createLaptop(req, res) {
     if (req.body.id) {
         return res.status(400).send({error: 'LaptopId should not be specified manually'})
     }
-    if (!newLaptop.name || !newLaptop.brand || !newLaptop.processor || !newLaptop.graphicsCard || !newLaptop.ram || !newLaptop.ssd) {
+    if (!newLaptop.name || !newLaptop.brand || !newLaptop.cpu || !newLaptop.gpu || !newLaptop.ram || !newLaptop.ssd) {
         return res.status(400).send({error: 'Missing required fields'})
     }
 
@@ -73,7 +73,7 @@ export function editLaptop(req, res) {
     }
 
     const updatedLaptop = {id: laptopId, ...laptops[laptopIndex], ...req.body}
-    if (!updatedLaptop.name || !updatedLaptop.brand || !updatedLaptop.processor || !updatedLaptop.graphicsCard || !updatedLaptop.ram || !updatedLaptop.ssd) {
+    if (!updatedLaptop.name || !updatedLaptop.brand || !updatedLaptop.cpu || !updatedLaptop.gpu || !updatedLaptop.ram || !updatedLaptop.ssd) {
         return res.status(400).send({error: 'Missing required fields'})
     }
 

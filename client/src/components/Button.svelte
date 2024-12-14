@@ -1,7 +1,9 @@
 <script>
-    export let text
-    export let callback
+    export let text;
+    export let callback;
 </script>
+
+<button class="button" on:click={callback}>{text}</button>
 
 <style>
     @import '../root.css';
@@ -16,12 +18,10 @@
         font-weight: bold;
         cursor: pointer;
         color: white;
-        background-color: var(--blue);;
+        background-color: var(--blue);
     }
 
     .button:hover {
-        background-color: var(--blue-dark)
+        background-color: var(--blue-dark);
     }
 </style>
-
-<button class="button" on:click={callback}> {text} </button>
