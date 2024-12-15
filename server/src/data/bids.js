@@ -68,6 +68,13 @@ let bids = [
         "userId": 2,
         "price": 5000,
         "dateTime": "2024-12-01T15:30:00Z"
+    },
+    {
+        "id": 11,
+        "auctionId": 5,
+        "userId": 2,
+        "price": 7000,
+        "dateTime": "2024-11-30T15:30:00Z"
     }
 ]
 

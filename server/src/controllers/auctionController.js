@@ -172,3 +172,16 @@ export function deleteAuction(req, res) {
     bids.splice(0, bids.length, ...bids.filter(bid => bid.auctionId !== auctionId))
     res.status(200).send({message: "Auction deleted successfully"})
 }
+
+export function getWonAuctions(req, res) {
+    const userId = parseInt(req.userId)
+    let result = auctions.filter(auction => auction.wonBy === userId)
+    result = result.map(auction => ({
+        id: auction.id,
+        currentPrice: calculateCurrentPrice(auction),
+        laptopName: getLaptopNameById(auction.laptopId),
+        endTime: auction.endTime
+    }));
+
+    return res.status(200).json(result)
+}

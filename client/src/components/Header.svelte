@@ -1,5 +1,6 @@
 <script>
     import {tokenStore} from '../stores/tokenStore.js';
+    import {decodeToken} from "../utils/decodeToken.js";
 
     export let active;
 
@@ -9,13 +10,16 @@
     }
 
     $: isLoggedOut = $tokenStore == null;
+    $: isAdmin = $tokenStore ==null ? false : decodeToken($tokenStore).isAdmin;
 </script>
 
 <nav>
     <div class="left-links">
         <a class:active={active === "/laptops"} href="/laptops">Laptops</a>
         <a class:active={active === "/auctions"} href="/auctions">Auctions</a>
-        <a class:active={active === "/profile"} href="/profile">Profile</a>
+        {#if !isAdmin}
+            <a class:active={active === "/wins"} href="/wins">Wins</a>
+        {/if}
     </div>
 
     {#if !isLoggedOut}

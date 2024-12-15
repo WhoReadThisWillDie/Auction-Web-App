@@ -11,6 +11,4 @@ router.get('/:id', laptopController.getLaptopById)
 router.patch('/:id', isAdmin, laptopController.editLaptop)
 router.delete('/:id', isAdmin, laptopController.deleteLaptop)
 
-router.get('/:id/auctions', laptopController.getLaptopAuctions)
-
 export default router

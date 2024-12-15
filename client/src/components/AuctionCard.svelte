@@ -43,6 +43,7 @@
     });
 
     const dispatch = createEventDispatcher();
+
     async function removeAuction(auctionId) {
         await deleteAuction(auctionId);
         dispatch('removeAuction');
@@ -50,18 +51,28 @@
 </script>
 
 
-<article class="card" on:click={() => router.redirect(`/auctions/${id}`)}>
-    <h3>Auction for {laptopName}</h3>
-    <p>Current Price: €{currentPrice}</p>
-    <p>Ends on: {new Date(endDate).toLocaleDateString()}</p>
-    <p class="time-remaining">Time left: {timeRemaining}</p>
-    {#if token?.isAdmin}
-        <section class="buttons">
-            <Button text="Edit" callback={() => {router.redirect(`/auctions/${id}/edit`)}}/>
-            <Button text="Delete" callback={() => removeAuction(id)}/>
-        </section>
-    {/if}
-</article>
+{#if new Date(endDate) < new Date()}
+    <article class="card">
+        <h3>Auction for {laptopName}</h3>
+        <p>Current Price: €{currentPrice}</p>
+        <p>Ends on: {new Date(endDate).toLocaleDateString()}</p>
+        <p class="time-remaining">Time left: {timeRemaining}</p>
+    </article>
+{:else}
+    <article class="card" on:click={() => router.redirect(`/auctions/${id}`)}>
+        <h3>Auction for {laptopName}</h3>
+        <p>Current Price: €{currentPrice}</p>
+        <p>Ends on: {new Date(endDate).toLocaleDateString()}</p>
+        <p class="time-remaining">Time left: {timeRemaining}</p>
+        {#if token?.isAdmin}
+            <section class="buttons">
+                <Button text="Edit" callback={() => {router.redirect(`/auctions/${id}/edit`)}}/>
+                <Button text="Delete" callback={() => removeAuction(id)}/>
+            </section>
+        {/if}
+    </article>
+{/if}
+
 
 <style>
     @import '../root.css';

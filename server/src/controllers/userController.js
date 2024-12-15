@@ -1,17 +1,7 @@
 import users from '../data/users.js'
 import bcrypt from 'bcrypt'
 import {generateToken} from '../jwt/generateToken.js'
-
-export function getUserInfo(req, res) {
-    const userId = parseInt(req.userId)
-    const user = users.find(user => user.id === userId)
-
-    if (!user) {
-        return res.status(404).send({message: 'User not found'})
-    }
-
-    res.status(200).json(user)
-}
+import auctions from "../data/auctions.js";
 
 export function createUser(req, res) {
     const newUser = {
@@ -53,8 +43,4 @@ export function loginUser(req, res) {
 
     const token = generateToken(user)
     res.status(200).send({token: token})
-}
-
-export function getUserAuctions(req, res) {
-
 }

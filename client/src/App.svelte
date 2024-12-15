@@ -8,7 +8,7 @@
     import EditAuction from "./pages/EditAuction.svelte";
     import Login from "./pages/Login.svelte";
     import Register from "./pages/Register.svelte";
-    import Profile from "./pages/Profile.svelte";
+    import Wins from "./pages/Wins.svelte";
     import Header from './components/Header.svelte'
 
     import {tokenStore} from "./stores/tokenStore.js";
@@ -78,12 +78,12 @@
         page = Register
         currentRoute = ctx.pathname
     })
-    router('/profile', (ctx) => {
-        if (!$tokenStore) {
-            return router.redirect('/login')
+    router('/wins', (ctx) => {
+        if (decodeToken($tokenStore)?.isAdmin) {
+            return router.redirect('/laptops')
         }
 
-        page = Profile
+        page = Wins
         currentRoute = ctx.pathname
     })
 

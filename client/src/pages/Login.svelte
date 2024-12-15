@@ -16,7 +16,7 @@
             const token = await fetchToken("/tokens" , username, password);
             localStorage.setItem('token', token);
             tokenStore.set(token);
-            router.redirect('/profile')
+            router.redirect('/laptops')
         } catch (error) {
             alert(error.message);
         }
