@@ -11,6 +11,7 @@
     let auctionsPromise = fetchAuctions();
 
     async function updateAuctions() {
+        console.log("asasd")
         auctionsPromise = fetchAuctions();
     }
 

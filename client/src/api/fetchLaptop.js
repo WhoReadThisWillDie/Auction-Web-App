@@ -53,9 +53,15 @@ export const deleteLaptop = async (laptopId) => {
         }
     })
 
-    const data = await response.json();
+    const data = await response.text();
     if (response.ok) {
-        return data;
+        if (data.length === 0) {
+            return null;
+        }
+        return JSON.parse(data);
     }
-    throw new Error(data.error);
+    if (data.length === 0) {
+        throw new Error('Failed to fetch');
+    }
+    throw new Error(JSON.parse(data).error);
 }
