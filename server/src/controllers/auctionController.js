@@ -96,6 +96,9 @@ export function createAuction(req, res) {
     if (!newAuction.laptopId || !newAuction.initialPrice || !newAuction.endTime) {
         return res.status(400).send({error: "Missing required fields"})
     }
+    if (new Date(newAuction.endTime) < new Date()) {
+        return res.status(400).send({error: "Invalid date"})
+    }
 
     auctions.push(newAuction)
     res.status(201).send({message: "Auction created successfully"})

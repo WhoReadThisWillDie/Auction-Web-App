@@ -2,41 +2,44 @@
     import Form from "../components/Form.svelte";
     import InputField from "../components/InputField.svelte";
     import Button from "../components/Button.svelte";
+    import Selector from "../components/Selector.svelte";
     import router from "page";
-    import {fetchAuction, editAuction} from "../api/fetchAuction.js";
+    import {fetchLaptops} from "../api/fetchLaptops.js";
+    import {createAuction} from "../api/fetchAuction.js";
 
-    export let params;
-
-    let laptopName;
+    let laptopId;
     let initialPrice;
     let endTime;
-    (async () => {
-        const auction = await fetchAuction(params.id);
-        laptopName = auction.laptopName;
-        initialPrice = auction.initialPrice;
-        endTime = auction.endTime;
-        return auction;
-    })();
 
-    async function handleEditAuction() {
+    let laptops;
+
+    fetchLaptops().then(data => {
+        laptops = data.map(laptop => {
+            return {id: laptop.id, name: laptop.name}
+        });
+    });
+
+    async function handleAddAuction() {
         try {
-            await editAuction(params.id, initialPrice, endTime);
+            await createAuction(parseInt(laptopId), initialPrice, endTime);
             router.redirect('/auctions');
         } catch (error) {
-            alert(error.message);
+            alert(error.message)
         }
     }
 </script>
 
-<Form title="Edit Auction for {laptopName}" onSubmit={handleEditAuction}>
+<Form title="Add Auction" onSubmit={handleAddAuction}>
     <div class="inputs" slot="inputs">
+        <p class="label">Laptop:</p>
+        <Selector options={laptops} bind:value={laptopId}/>
         <p class="label">Initial price:</p>
         <InputField placeholder="Initial Price" type="number" bind:value={initialPrice} required/>
         <p class="label">End date:</p>
         <InputField placeholder="End Date" type="date" bind:value={endTime} required/>
     </div>
     <div class="buttons" slot="button">
-        <Button text="Save" on:click={() => {}}/>
+        <Button text="Create" on:click={() => {}}/>
     </div>
 </Form>
 

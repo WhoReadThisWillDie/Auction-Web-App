@@ -1,7 +1,12 @@
 <script>
     import AuctionCard from "../components/AuctionCard.svelte";
+    import Button from "../components/Button.svelte";
     import {fetchAuctions} from "../api/fetchAuctions.js";
+    import {tokenStore} from "../stores/tokenStore.js";
+    import {decodeToken} from "../utils/decodeToken.js";
+    import router from "page";
 
+    let token = $tokenStore ? decodeToken($tokenStore) : undefined;
     let auctionsPromise = fetchAuctions();
 
     async function updateAuctions() {
@@ -9,6 +14,9 @@
     }
 </script>
 
+{#if token?.isAdmin}
+    <Button text="Add Auction" callback={() => router.redirect('/auctions/add')}/>
+{/if}
 <section class="auction-cards">
     {#await auctionsPromise}
         <p>Loading...</p>
@@ -20,7 +28,7 @@
                         laptopName="{auction.laptopName}"
                         currentPrice="{auction.currentPrice}"
                         endDate="{auction.endTime}"
-                on:removeAuction={() => updateAuctions()}/>
+                        on:removeAuction={() => updateAuctions()}/>
             {/each}
         {/if}
     {:catch error}

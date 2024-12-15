@@ -4,6 +4,7 @@
     import Laptops from './pages/Laptops.svelte'
     import Auctions from './pages/Auctions.svelte'
     import AuctionDetails from './pages/AuctionDetails.svelte'
+    import AddAuction from "./pages/AddAuction.svelte";
     import EditAuction from "./pages/EditAuction.svelte";
     import Login from "./pages/Login.svelte";
     import Register from "./pages/Register.svelte";
@@ -25,6 +26,14 @@
     })
     router('/auctions', (ctx) => {
         page = Auctions
+        currentRoute = ctx.pathname
+    })
+    router('/auctions/add', (ctx) => {
+        if (!decodeToken($tokenStore)?.isAdmin) {
+            return router.redirect('/auctions')
+        }
+
+        page = AddAuction
         currentRoute = ctx.pathname
     })
     router('/auctions/:id', (ctx) => {

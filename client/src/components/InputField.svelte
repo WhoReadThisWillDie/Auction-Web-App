@@ -5,7 +5,7 @@
 </script>
 
 {#if type === "text"}
-    <input class="input" placeholder={placeholder} bind:value {...$$restProps} />
+    <input class="input" placeholder={placeholder} bind:value {...$$restProps}/>
 {:else if type === "password"}
     <input class="input" type="password" placeholder={placeholder} bind:value {...$$restProps}/>
 {:else if type === "number"}

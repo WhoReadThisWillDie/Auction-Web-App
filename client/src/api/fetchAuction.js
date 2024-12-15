@@ -11,6 +11,23 @@ export const fetchAuction = async (auctionId) => {
     }
 }
 
+export const createAuction = async (laptopId, initialPrice, endTime) => {
+    const response = await fetch(`http://localhost:3000/auctions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${get(tokenStore)}`
+        },
+        body: JSON.stringify({laptopId, initialPrice, endTime})
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    }
+    throw new Error(data.error);
+}
+
 export const editAuction = async (auctionId, initialPrice, endTime) => {
     const response = await fetch(`http://localhost:3000/auctions/${auctionId}`, {
         method: 'PATCH',
