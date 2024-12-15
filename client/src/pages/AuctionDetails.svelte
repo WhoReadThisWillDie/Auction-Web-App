@@ -1,41 +1,61 @@
 <script>
-    import {fetchAuction, fetchAuctionBids} from "../api/fetchAuction.js";
+    import {fetchAuction, fetchAuctionBids, postBid} from "../api/fetchAuction.js";
+    import {decodeToken} from "../utils/decodeToken.js";
+    import {tokenStore} from "../stores/tokenStore.js";
     import InputField from "../components/InputField.svelte";
     import Button from "../components/Button.svelte";
 
     export let params;
 
-    let bid;
+    let bidPrice;
+    let auctionPromise = fetchAuction(params.id);
+    let bidsPromise = fetchAuctionBids(params.id);
+    let token = $tokenStore ? decodeToken($tokenStore) : undefined;
+
+    async function createBid(bidPrice, auctionId) {
+        try {
+            const data = await postBid(auctionId, bidPrice);
+            auctionPromise = fetchAuction(params.id);
+            bidsPromise = fetchAuctionBids(params.id);
+            alert(data.message);
+        } catch (error) {
+            alert(error);
+        }
+    }
 </script>
 
 <section class="auction-detail">
-    {#await fetchAuction(params.id)}
+    {#await auctionPromise}
         <p>Loading auction details...</p>
     {:then auction}
         {#if auction.id}
             <section class="auction-header">
                 <h1>{auction.laptopName}</h1>
-                <p>Initial Price: <strong>${auction.initialPrice}</strong></p>
-                <p>Current Price: <strong>${auction.currentPrice}</strong></p>
+                <p>Initial Price: <strong>€{auction.initialPrice}</strong></p>
+                <p>Current Price: <strong>€{auction.currentPrice}</strong></p>
                 <p>Ends on: <strong>{new Date(auction.endTime).toLocaleString()}</strong></p>
             </section>
 
-            <section class="auction-bid-section">
-                <h2>Place Your Bid</h2>
-                <InputField placeholder="Your bid" bind:value={bid}/>
-                <Button text="Place bid" callback={() => {}}/>
-            </section>
+            {#if token && !token?.isAdmin}
+                <section class="auction-bid-section">
+                    <h2>Place Your Bid</h2>
+                    <form on:submit|preventDefault={() => createBid(bidPrice, auction.id)}>
+                        <InputField placeholder="Your bid" type="number" bind:value={bidPrice} required/>
+                        <Button text="Place bid" callback={() => {}}/>
+                    </form>
+                </section>
+            {/if}
 
             <section class="auction-bids">
                 <h2>Bids</h2>
-                {#await fetchAuctionBids(params.id)}
+                {#await bidsPromise}
                     <p>Loading auction bids...</p>
                 {:then bids}
                     {#if bids.length > 0}
                         <ul>
                             {#each bids.reverse() as bid}
                                 <li>
-                                    <p>{bid.user}: ${bid.price} - {new Date(bid.dateTime).toLocaleString()}</p>
+                                    <p>{bid.user}: €{bid.price} - {new Date(bid.dateTime).toLocaleString()}</p>
                                 </li>
                             {/each}
                         </ul>

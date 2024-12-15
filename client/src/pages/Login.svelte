@@ -6,7 +6,6 @@
     import Button from '../components/Button.svelte';
 
     import {fetchToken} from "../api/fetchToken.js";
-    import {decodeToken} from "../utils/decodeToken.js";
     import {tokenStore} from "../stores/tokenStore.js";
 
     let username = '';
@@ -16,7 +15,7 @@
         try {
             const token = await fetchToken("/tokens" , username, password);
             localStorage.setItem('token', token);
-            tokenStore.set(decodeToken(token));
+            tokenStore.set(token);
             router.redirect('/profile')
         } catch (error) {
             alert(error.message);
@@ -26,8 +25,8 @@
 
 <Form title="Login" onSubmit={handleLogin}>
     <div class="inputs" slot="inputs">
-        <InputField placeholder="Username" bind:value={username}/>
-        <InputField placeholder="Password" bind:value={password}/>
+        <InputField placeholder="Username" type="text" bind:value={username} required/>
+        <InputField placeholder="Password" type="password" bind:value={password} required/>
     </div>
     <div class="button-container" slot="button">
         <p>Don't have an account yet? <a href="/register">Register</a></p>

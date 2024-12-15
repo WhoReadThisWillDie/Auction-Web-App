@@ -11,7 +11,7 @@ router.get("/:id", auctionController.getAuctionById)
 router.patch("/:id", isAdmin, auctionController.editAuction)
 router.delete("/:id", isAdmin, auctionController.deleteAuction)
 
-router.get('/:id/bids', isNotAdmin, auctionController.getAuctionBids)
+router.get('/:id/bids', auctionController.getAuctionBids)
 router.post('/:id/bids', isNotAdmin, auctionController.createBidForAuction)
 
 export default router

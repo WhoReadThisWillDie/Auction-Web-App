@@ -1,5 +1,5 @@
 <script>
-    import { tokenStore } from '../stores/tokenStore.js';
+    import {tokenStore} from '../stores/tokenStore.js';
 
     export let active;
 
@@ -20,6 +20,8 @@
 
     {#if !isLoggedOut}
         <a href="/login" on:click={logOut}>Log out</a>
+    {:else}
+        <a href="/login" on:click={logOut}>Log in</a>
     {/if}
 </nav>
 

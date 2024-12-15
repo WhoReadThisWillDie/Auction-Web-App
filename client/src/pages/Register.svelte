@@ -6,7 +6,6 @@
     import Button from '../components/Button.svelte';
 
     import {fetchToken} from "../api/fetchToken.js";
-    import {decodeToken} from "../utils/decodeToken.js";
     import {tokenStore} from "../stores/tokenStore.js";
 
     let username = '';
@@ -17,7 +16,7 @@
         try {
             const token = await fetchToken("/users", username, password);
             localStorage.setItem('token', token);
-            tokenStore.set(decodeToken(token));
+            tokenStore.set(token);
             router.redirect('/profile')
         } catch (error) {
             alert(error.message);
@@ -27,9 +26,9 @@
 
 <Form title="Register" onSubmit={handleRegister}>
     <div class="inputs" slot="inputs">
-        <InputField placeholder="Username" bind:value={username}/>
-        <InputField placeholder="Password" bind:value={password}/>
-        <InputField placeholder="Repeat password" bind:value={passwordRepeat}/>
+        <InputField placeholder="Username" type="text" bind:value={username} required minLength={3} maxLength={20}/>
+        <InputField placeholder="Password" type="password" bind:value={password} required minLength={5} maxLength={20}/>
+        <InputField placeholder="Repeat password" type="password" bind:value={passwordRepeat} required minLength={5} maxLength={20}/>
     </div>
     <div class="button-container" slot="button">
         <Button text="Register" callback={() => {}}/>

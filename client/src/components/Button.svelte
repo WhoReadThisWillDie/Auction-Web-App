@@ -1,9 +1,9 @@
 <script>
     export let text;
-    export let callback;
+    export let callback = () => {};
 </script>
 
-<button class="button" on:click={callback}>{text}</button>
+<button class="button" on:click|stopPropagation={callback}>{text}</button>
 
 <style>
     .button {

@@ -147,9 +147,11 @@ export function editAuction(req, res) {
     if (!updatedAuction.laptopId || !updatedAuction.initialPrice || !updatedAuction.endTime) {
         return res.status(400).send({error: "Missing required fields"})
     }
-    if (new Date(updatedAuction.dateTime) < new Date()) {
+    if (new Date(updatedAuction.endTime) < new Date()) {
         return res.status(400).send({error: "Invalid date"})
     }
+
+    console.log(updatedAuction);
 
     auctions[auctionIndex] = updatedAuction
     res.status(200).send({message: "Auction updated successfully"})

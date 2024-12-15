@@ -1,20 +1,26 @@
 <script>
-    import Card from "../components/AuctionCard.svelte";
+    import AuctionCard from "../components/AuctionCard.svelte";
     import {fetchAuctions} from "../api/fetchAuctions.js";
+
+    let auctionsPromise = fetchAuctions();
+
+    async function updateAuctions() {
+        auctionsPromise = fetchAuctions();
+    }
 </script>
 
 <section class="auction-cards">
-    {#await fetchAuctions()}
+    {#await auctionsPromise}
         <p>Loading...</p>
     {:then auctions}
         {#if auctions.length > 0}
             {#each auctions as auction}
-                <Card
+                <AuctionCard
                         id="{auction.id}"
                         laptopName="{auction.laptopName}"
                         currentPrice="{auction.currentPrice}"
                         endDate="{auction.endTime}"
-                />
+                on:removeAuction={() => updateAuctions()}/>
             {/each}
         {/if}
     {:catch error}

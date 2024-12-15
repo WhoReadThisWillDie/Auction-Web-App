@@ -1,9 +1,18 @@
 <script>
     export let placeholder;
     export let value;
+    export let type = "text";
 </script>
 
-<input class="input" placeholder={placeholder} bind:value />
+{#if type === "text"}
+    <input class="input" placeholder={placeholder} bind:value {...$$restProps} />
+{:else if type === "password"}
+    <input class="input" type="password" placeholder={placeholder} bind:value {...$$restProps}/>
+{:else if type === "number"}
+    <input class="input" type="number" placeholder={placeholder} bind:value {...$$restProps}/>
+{:else if type === "date"}
+    <input class="input" type="date" placeholder={placeholder} bind:value {...$$restProps}/>
+{/if}
 
 <style>
     @import '../root.css';
