@@ -15,7 +15,6 @@
     }
 
     async function handleFiltersChange(filters) {
-        console.log(filters);
         auctionsPromise = fetchAuctions(filters);
     }
 </script>

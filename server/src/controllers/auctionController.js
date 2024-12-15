@@ -154,8 +154,6 @@ export function editAuction(req, res) {
         return res.status(400).send({error: "Invalid date"})
     }
 
-    console.log(updatedAuction);
-
     auctions[auctionIndex] = updatedAuction
     res.status(200).send({message: "Auction updated successfully"})
 }

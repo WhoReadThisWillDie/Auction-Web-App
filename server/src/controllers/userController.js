@@ -17,14 +17,11 @@ export function createUser(req, res) {
         return res.status(400).send({message: 'Missing required fields'})
     }
     if (users.find(user => user.username === newUser.username) || newUser.username.length < 3 || newUser.username.length > 20) {
-        console.log(newUser.username)
         return res.status(400).send({message: 'Invalid username'})
     }
     if (req.body.password.length < 5 || req.body.password.length > 20) {
         return res.status(400).send({message: 'Invalid password'})
     }
-
-    console.log(newUser)
 
     users.push(newUser)
     res.status(201).json({

@@ -38,7 +38,6 @@ export function getLaptopById(req, res) {
 export function createLaptop(req, res) {
     const newLaptop = {id: laptops.length + 1, ...req.body}
 
-    console.log(newLaptop)
     if (req.body.id) {
         return res.status(400).send({error: 'LaptopId should not be specified manually'})
     }

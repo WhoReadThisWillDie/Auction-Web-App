@@ -21,7 +21,6 @@
         gpu = laptop.gpu;
         ram = laptop.ram.replace("GB", "");
         ssd = laptop.ssd.replace("GB", "");
-        console.log(ram)
         return laptop;
     })();
 

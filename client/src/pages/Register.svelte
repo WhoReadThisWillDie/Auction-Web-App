@@ -14,7 +14,6 @@
 
     async function handleRegister() {
         try {
-            console.log(password, passwordRepeat)
             if (password !== passwordRepeat) {
                 alert('Passwords do not match');
                 return;

@@ -10,7 +10,6 @@
 
     const dispatch = createEventDispatcher();
     async function handleFilter() {
-        console.log(name, lowestPrice, highestPrice, endTime);
         const filters = {
             laptopName: name,
             lowestPrice: lowestPrice ? parseFloat(lowestPrice) : undefined,
