@@ -184,16 +184,9 @@ Authorization: Bearer {{adminToken}}
     client.test(
         "Request executed successfully",
         function() {
-            client.assert(response.status === 200, "Response status is not 200");
+            client.assert(response.status === 204, "Response status is not 204");
         }
     )
-
-    client.test(
-        "Auction deleted successfully",
-        function() {
-            client.assert(response.body.message === "Auction deleted successfully", "Message not found in response body");
-        }
-    );
 %}
 
 ### Delete non-existing auction

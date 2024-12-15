@@ -1,0 +1,21 @@
+### GET won auctions for a user
+GET {{protocol}}{{host}}:{{port}}/wins
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{userToken}}
+
+> {%
+    client.test(
+        "Request executed successfully",
+        function() {
+            client.assert(response.status === 200, "Response status is not 200");
+        }
+    )
+
+    client.test(
+        "Response body contains a token",
+        function() {
+            client.assert(response.body.length > 0, "Response body is not empty");
+        }
+    );
+%}

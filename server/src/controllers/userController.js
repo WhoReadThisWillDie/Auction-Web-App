@@ -1,7 +1,6 @@
 import users from '../data/users.js'
 import bcrypt from 'bcrypt'
 import {generateToken} from '../jwt/generateToken.js'
-import auctions from "../data/auctions.js";
 
 export function createUser(req, res) {
     const newUser = {

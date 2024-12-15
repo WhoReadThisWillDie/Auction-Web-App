@@ -170,7 +170,7 @@ export function deleteAuction(req, res) {
 
     auctions.splice(auctionIndex, 1)
     bids.splice(0, bids.length, ...bids.filter(bid => bid.auctionId !== auctionId))
-    res.status(200).send({message: "Auction deleted successfully"})
+    res.status(204).send()
 }
 
 export function getWonAuctions(req, res) {
@@ -183,5 +183,5 @@ export function getWonAuctions(req, res) {
         endTime: auction.endTime
     }));
 
-    return res.status(200).json(result)
+    return res.json(result)
 }

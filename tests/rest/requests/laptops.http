@@ -35,28 +35,6 @@ Authorization: Bearer {{userToken}}
     )
 %}
 
-### Get auctions of a laptop with existing id
-GET {{protocol}}{{host}}:{{port}}/laptops/2/auctions
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{userToken}}
-
-> {%
-    client.test(
-        "Request executed successfully",
-        function() {
-            client.assert(response.status === 200, "Response status is not 200");
-        }
-    )
-
-    client.test(
-        "Response body is not empty",
-        function() {
-            client.assert(response.body.length !== 0, "Response body is empty");
-        }
-    );
-%}
-
 ### Create laptop
 POST {{protocol}}{{host}}:{{port}}/laptops
 Content-Type: application/json
@@ -66,8 +44,8 @@ Authorization: Bearer {{adminToken}}
 {
   "name": "Asus TUF Gaming F15",
   "brand": "Asus",
-  "processor": "Intel Core i7-12700H",
-  "graphicsCard": "NVIDIA GeForce RTX 3070",
+  "cpu": "Intel Core i7-12700H",
+  "gpu": "NVIDIA GeForce RTX 3070",
   "ram": "16GB",
   "ssd": "512GB"
 }
@@ -165,16 +143,9 @@ Authorization: Bearer {{adminToken}}
     client.test(
         "Request executed successfully",
         function() {
-            client.assert(response.status === 200, "Response status is not 200");
+            client.assert(response.status === 204, "Response status is not 204");
         }
     )
-
-    client.test(
-        "Laptop deleted successfully",
-        function() {
-            client.assert(response.body.message === "Laptop deleted successfully", "Message not found in response body");
-        }
-    );
 %}
 
 ### Delete non-existing laptop

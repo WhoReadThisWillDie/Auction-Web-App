@@ -35,18 +35,6 @@ export function getLaptopById(req, res) {
     return res.json(laptop)
 }
 
-export function getLaptopAuctions(req, res) {
-    const laptopId = parseInt(req.params.id)
-    const laptop = laptops.find(laptop => laptop.id === laptopId)
-
-    if (!laptop) {
-        return res.status(404).send({error: 'Laptop with this id does not exist'})
-    }
-
-    const laptopAuctions = auctions.find(auction => auction.laptopId === laptopId)
-    return res.json(laptopAuctions)
-}
-
 export function createLaptop(req, res) {
     const newLaptop = {id: laptops.length + 1, ...req.body}
 
@@ -98,5 +86,5 @@ export function deleteLaptop(req, res) {
 
     laptops.splice(laptopIndex, 1)
     auctions.splice(0, auctions.length, ...auctions.filter(auction => auction.laptopId !== laptopId))
-    res.status(200).send({message: 'Laptop deleted successfully'})
+    res.status(204).send()
 }
