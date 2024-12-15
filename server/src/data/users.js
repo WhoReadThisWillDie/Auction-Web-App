@@ -10,6 +10,12 @@ let users = [
         "username": "user123",
         "password": "$2b$10$a0Q/rWm/rUjRafisYvkT5uCt8gJmhEmhKXzUEt4BcuBoHHzXsFyv.",
         "isAdmin": false
+    },
+    {
+        "id": 3,
+        "username": "user321",
+        "password": "$2b$10$iNSu8i8kRgrSCe.DBrmI/O4Bd0WW.MU9fQkM2WjfYkHepRtZR3MXm",
+        "isAdmin": false
     }
 ]
 

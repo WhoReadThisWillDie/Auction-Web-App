@@ -3,6 +3,7 @@
 
     import Laptops from './pages/Laptops.svelte'
     import Auctions from './pages/Auctions.svelte'
+    import AuctionDetails from './pages/AuctionDetails.svelte'
     import Login from "./pages/Login.svelte";
     import Register from "./pages/Register.svelte";
     import Profile from "./pages/Profile.svelte";
@@ -23,7 +24,15 @@
     router('/auctions', (ctx) => {
         page = Auctions
         currentRoute = ctx.pathname
-        params = ctx
+    })
+    router('/auction/:id', (ctx) => {
+        if (!$tokenStore) {
+            return router.redirect('/login')
+        }
+
+        page = AuctionDetails
+        currentRoute = ctx.pathname
+        params = ctx.params
     })
     router('/login', (ctx) => {
         page = Login

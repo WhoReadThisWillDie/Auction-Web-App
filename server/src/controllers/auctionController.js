@@ -15,6 +15,11 @@ function getLaptopNameById(laptopId) {
     return laptop ? laptop.name : "Unknown Laptop";
 }
 
+function getUserNameById(userId) {
+    const user = users.find(user => user.id === userId);
+    return user ? user.username : "Unknown User";
+}
+
 export function getAllAuctions(req, res) {
     let result = Array.from(auctions);
 
@@ -44,20 +49,21 @@ export function getAllAuctions(req, res) {
 
 export function getAuctionById(req, res) {
     const auctionId = parseInt(req.params.id)
-    const auction = auctions.find(auction => auction.id === auctionId)
+    let auction = auctions.find(auction => auction.id === auctionId)
 
     if (!auction) {
         return res.status(404).send({message: "Auction with this id does not exist"})
     }
 
-    const result = {
+    auction = {
         id: auction.id,
+        initialPrice: auction.initialPrice,
         currentPrice: calculateCurrentPrice(auction),
         laptopName: getLaptopNameById(auction.laptopId),
         endTime: auction.endTime
     }
 
-    return res.json(result)
+    return res.json(auction)
 }
 
 export function getAuctionBids(req, res) {
@@ -68,7 +74,16 @@ export function getAuctionBids(req, res) {
         return res.status(404).send({error: "Auction with this id does not exist"})
     }
 
-    const auctionBids = bids.filter(bid => bid.auctionId === auctionId)
+    let auctionBids = bids.filter(bid => bid.auctionId === auctionId)
+    auctionBids = auctionBids.map(bid => {
+        return {
+            id: bid.id,
+            user: getUserNameById(bid.userId),
+            price: bid.price,
+            dateTime: bid.dateTime
+        }
+    })
+
     return res.json(auctionBids)
 }
 

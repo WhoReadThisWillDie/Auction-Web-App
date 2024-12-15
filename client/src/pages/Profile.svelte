@@ -1,1 +1,1 @@
-<p>Empty profile page</p>
+<p>Profile page</p>

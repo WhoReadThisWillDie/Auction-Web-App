@@ -1,6 +1,8 @@
 <script>
+    import router from 'page'
     import { onDestroy } from 'svelte';
 
+    export let id
     export let laptopName
     export let currentPrice
     export let endDate
@@ -8,10 +10,11 @@
     let timeRemaining = "";
 
     const formatTime = (ms) => {
-        const hours = Math.floor(ms / (1000 * 60 * 60));
+        const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(ms % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
         const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-        return `${hours}h ${minutes}m ${seconds}s`;
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
     };
 
     const updateCountdown = () => {
@@ -33,17 +36,13 @@
     onDestroy(() => {
         clearInterval(countdownInterval);
     });
-
-    const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
-    };
 </script>
 
 
-<article class="card">
+<article class="card" on:click={() => router.redirect(`/auction/${id}`)}>
     <h3>Auction for {laptopName}</h3>
     <p>Current Price: €{currentPrice}</p>
-    <p>Ends on: {formatDate(endDate)}</p>
+    <p>Ends on: {new Date(endDate).toLocaleDateString()}</p>
     <p class="time-remaining">Time left: {timeRemaining}</p>
 </article>
 

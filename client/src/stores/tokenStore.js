@@ -1,7 +1,3 @@
-import { writable } from 'svelte/store';
-import {decodeToken} from "../jwt/decodeToken.js";
+import {writable} from 'svelte/store';
 
-const tokenFromStorage = localStorage.getItem('token')
-const decodedToken = tokenFromStorage ? decodeToken(tokenFromStorage) : null
-
-export const tokenStore = writable(decodedToken)
+export const tokenStore = writable(localStorage.getItem('token'))

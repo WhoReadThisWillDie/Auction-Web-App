@@ -10,6 +10,7 @@
         {#if auctions.length > 0}
             {#each auctions as auction}
                 <Card
+                        id="{auction.id}"
                         laptopName="{auction.laptopName}"
                         currentPrice="{auction.currentPrice}"
                         endDate="{auction.endTime}"

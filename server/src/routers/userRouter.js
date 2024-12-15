@@ -6,9 +6,7 @@ const router = express.Router()
 
 router.post('/', userController.createUser)
 
-router.get('/:id', isLoggedIn, userController.getUserById)
-
-router.get('/:id/bids', isNotAdmin, userController.getUserBids)
+router.get('/me', isLoggedIn, userController.getUserInfo)
 
 router.get('/:id/won', isNotAdmin, userController.getUserAuctions)
 

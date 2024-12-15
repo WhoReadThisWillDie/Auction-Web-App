@@ -1,10 +1,9 @@
 import users from '../data/users.js'
 import bcrypt from 'bcrypt'
-import bids from '../data/bids.js'
 import {generateToken} from '../jwt/generateToken.js'
 
-export function getUserById(req, res) {
-    const userId = parseInt(req.params.id)
+export function getUserInfo(req, res) {
+    const userId = parseInt(req.userId)
     const user = users.find(user => user.id === userId)
 
     if (!user) {
@@ -54,18 +53,6 @@ export function loginUser(req, res) {
 
     const token = generateToken(user)
     res.status(200).send({token: token})
-}
-
-export function getUserBids(req, res) {
-    const userId = parseInt(req.params.id)
-    const user = users.find(user => user.id === userId)
-
-    if (!user) {
-        return res.status(404).send({message: 'User not found'})
-    }
-
-    const userBids = bids.filter(bid => bid.userId === userId)
-    return res.status(200).json(userBids)
 }
 
 export function getUserAuctions(req, res) {

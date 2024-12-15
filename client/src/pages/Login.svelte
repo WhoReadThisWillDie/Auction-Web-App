@@ -6,7 +6,7 @@
     import Button from '../components/Button.svelte';
 
     import {fetchToken} from "../api/fetchToken.js";
-    import {decodeToken} from "../jwt/decodeToken.js";
+    import {decodeToken} from "../utils/decodeToken.js";
     import {tokenStore} from "../stores/tokenStore.js";
 
     let username = '';

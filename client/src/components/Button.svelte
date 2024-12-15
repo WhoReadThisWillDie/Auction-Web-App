@@ -9,6 +9,7 @@
     .button {
         padding: 0.5rem;
         border: none;
+        margin-top: 1rem;
         border-radius: 0.75rem;
         font-size: 0.8rem;
         min-width: 6rem;
