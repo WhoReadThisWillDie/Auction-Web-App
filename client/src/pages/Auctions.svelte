@@ -5,6 +5,7 @@
     import {tokenStore} from "../stores/tokenStore.js";
     import {decodeToken} from "../utils/decodeToken.js";
     import router from "page";
+    import AuctionFilters from "../components/AuctionFilters.svelte";
 
     const token = $tokenStore ? decodeToken($tokenStore) : undefined;
     let auctionsPromise = fetchAuctions();
@@ -12,11 +13,17 @@
     async function updateAuctions() {
         auctionsPromise = fetchAuctions();
     }
+
+    async function handleFiltersChange(filters) {
+        console.log(filters);
+        auctionsPromise = fetchAuctions(filters);
+    }
 </script>
 
 {#if token?.isAdmin}
     <Button text="Add Auction" callback={() => router.redirect('/auctions/add')}/>
 {/if}
+<AuctionFilters on:filterChange={(event) => handleFiltersChange(event.detail)}/>
 <section class="auction-cards">
     {#await auctionsPromise}
         <p>Loading...</p>
