@@ -14,8 +14,6 @@
     let timeRemaining = "";
     let token = $tokenStore ? decodeToken($tokenStore) : undefined;
 
-    const dispatch = createEventDispatcher();
-
     const formatTime = (ms) => {
         const days = Math.floor(ms / (1000 * 60 * 60 * 24));
         const hours = Math.floor(ms % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
@@ -28,7 +26,6 @@
         const endTime = new Date(endDate);
         const currentTime = new Date();
         const timeDifference = endTime.getTime() - currentTime.getTime();
-
         if (timeDifference <= 0) {
             timeRemaining = "Auction ended";
             clearInterval(countdownInterval);
@@ -38,12 +35,14 @@
     };
 
     let countdownInterval = setInterval(updateCountdown, 1000);
-    updateCountdown();
 
+    updateCountdown();
     onDestroy(() => {
+
         clearInterval(countdownInterval);
     });
 
+    const dispatch = createEventDispatcher();
     async function removeAuction(auctionId) {
         await deleteAuction(auctionId);
         dispatch('removeAuction');

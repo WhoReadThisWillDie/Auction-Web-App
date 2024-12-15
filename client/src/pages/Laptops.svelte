@@ -1,15 +1,30 @@
 <script>
-    import Card from "../components/LaptopCard.svelte";
+    import LaptopCard from "../components/LaptopCard.svelte";
     import {fetchLaptops} from "../api/fetchLaptops.js";
+    import router from "page";
+    import {tokenStore} from "../stores/tokenStore.js";
+    import {decodeToken} from "../utils/decodeToken.js";
+    import Button from "../components/Button.svelte";
+
+    const token = $tokenStore ? decodeToken($tokenStore) : undefined;
+
+    let laptopsPromise = fetchLaptops();
+    async function updateLaptops() {
+        laptopsPromise = fetchLaptops();
+    }
 </script>
 
+{#if token?.isAdmin}
+    <Button text="Add Laptop" callback={() => router.redirect('/laptops/add')}/>
+{/if}
 <section class="laptop-cards">
-    {#await fetchLaptops()}
+    {#await laptopsPromise}
         <p>Loading...</p>
     {:then laptops}
         {#if laptops.length > 0}
             {#each laptops as laptop}
-                <Card
+                <LaptopCard
+                        id="{laptop.id}"
                         name={laptop.name}
                         brand={laptop.brand}
                         cpu={laptop.cpu}
@@ -17,6 +32,7 @@
                         ram={laptop.ram}
                         ssd={laptop.ssd}
                         image="{laptop.imagePath}"
+                        on:removeLaptop={() => updateLaptops()}
                 />
             {/each}
         {/if}

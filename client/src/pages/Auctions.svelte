@@ -6,7 +6,7 @@
     import {decodeToken} from "../utils/decodeToken.js";
     import router from "page";
 
-    let token = $tokenStore ? decodeToken($tokenStore) : undefined;
+    const token = $tokenStore ? decodeToken($tokenStore) : undefined;
     let auctionsPromise = fetchAuctions();
 
     async function updateAuctions() {
