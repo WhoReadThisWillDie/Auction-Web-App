@@ -14,6 +14,11 @@
 
     async function handleRegister() {
         try {
+            console.log(password, passwordRepeat)
+            if (password !== passwordRepeat) {
+                alert('Passwords do not match');
+                return;
+            }
             const token = await fetchToken("/users", username, password);
             localStorage.setItem('token', token);
             tokenStore.set(token);

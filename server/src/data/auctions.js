@@ -33,6 +33,12 @@ let auctions = [
         "initialPrice": 5000,
         "endTime": "2024-12-01T12:00:00Z",
         "wonBy": 2
+    },
+    {
+        "id": 6,
+        laptopId: 10,
+        initialPrice: 1000,
+        endTime: "2024-12-15T22:38:00Z",
     }
 ]
 
