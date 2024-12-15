@@ -43,7 +43,7 @@
             <p>{brand}</p>
             {#if token?.isAdmin}
                 <section class="buttons">
-                    <Button text="Edit" callback={() => router.redirect(`/laptops/${id}`)}/>
+                    <Button text="Edit" callback={() => router.redirect(`/laptops/${id}/edit`)}/>
                     <Button text="Delete" callback={() => removeLaptop(id)}/>
                 </section>
             {/if}
@@ -144,6 +144,6 @@
 
     .buttons {
         display: flex;
-        gap: 0.1rem;
+        gap: 0.5rem;
     }
 </style>

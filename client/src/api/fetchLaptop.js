@@ -10,9 +10,39 @@ export const fetchLaptop = async (laptopId) => {
     }
 }
 
-export const createLaptop = async (laptopId, initialPrice, endTime) => {}
+export const createLaptop = async (name, brand, cpu, gpu, ram, ssd, imagePath) => {
+    const response = await fetch(`http://localhost:3000/laptops`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${get(tokenStore)}`
+        },
+        body: JSON.stringify({name, brand, cpu, gpu, ram, ssd, imagePath})
+    });
 
-export const editLaptop = async (laptopId, initialPrice, endTime) => {}
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    }
+    throw new Error(data.error);
+}
+
+export const editLaptop = async (id, name, brand, cpu, gpu, ram, ssd) => {
+    const response = await fetch(`http://localhost:3000/laptops/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${get(tokenStore)}`
+        },
+        body: JSON.stringify({name, brand, cpu, gpu, ram, ssd})
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    }
+    throw new Error(data.error);
+}
 
 export const deleteLaptop = async (laptopId) => {
     const response = await fetch(`http://localhost:3000/laptops/${laptopId}`, {

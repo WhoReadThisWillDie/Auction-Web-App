@@ -13,6 +13,8 @@
 
     import {tokenStore} from "./stores/tokenStore.js";
     import {decodeToken} from "./utils/decodeToken.js";
+    import EditLaptop from "./pages/EditLaptop.svelte";
+    import AddLaptop from "./pages/AddLaptop.svelte";
 
 
     let page
@@ -23,6 +25,24 @@
         page = Laptops
         currentRoute = ctx.pathname
         params = ctx
+    })
+    router('/laptops/add', (ctx) => {
+        if (!decodeToken($tokenStore)?.isAdmin) {
+            return router.redirect('/laptops')
+        }
+
+        page = AddLaptop
+        currentRoute = ctx.pathname
+        params = ctx
+    })
+    router('/laptops/:id/edit', (ctx) => {
+        if (!decodeToken($tokenStore)?.isAdmin) {
+            return router.redirect('/laptops')
+        }
+
+        page = EditLaptop
+        currentRoute = ctx.pathname
+        params = ctx.params
     })
     router('/auctions', (ctx) => {
         page = Auctions

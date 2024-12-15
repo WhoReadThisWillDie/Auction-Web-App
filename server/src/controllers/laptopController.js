@@ -48,14 +48,18 @@ export function getLaptopAuctions(req, res) {
 }
 
 export function createLaptop(req, res) {
-    const newLaptop = {id: req.params.id, ...req.body}
+    const newLaptop = {id: laptops.length + 1, ...req.body}
 
+    console.log(newLaptop)
     if (req.body.id) {
         return res.status(400).send({error: 'LaptopId should not be specified manually'})
     }
     if (!newLaptop.name || !newLaptop.brand || !newLaptop.cpu || !newLaptop.gpu || !newLaptop.ram || !newLaptop.ssd) {
         return res.status(400).send({error: 'Missing required fields'})
     }
+
+    newLaptop.ram = newLaptop.ram+"GB";
+    newLaptop.ssd = newLaptop.ssd+"GB";
 
     laptops.push(newLaptop)
     res.status(201).send({message: 'Laptop created successfully'})
@@ -76,6 +80,9 @@ export function editLaptop(req, res) {
     if (!updatedLaptop.name || !updatedLaptop.brand || !updatedLaptop.cpu || !updatedLaptop.gpu || !updatedLaptop.ram || !updatedLaptop.ssd) {
         return res.status(400).send({error: 'Missing required fields'})
     }
+
+    updatedLaptop.ram = updatedLaptop.ram+"GB";
+    updatedLaptop.ssd = updatedLaptop.ssd+"GB";
 
     laptops[laptopIndex] = updatedLaptop
     res.status(200).send({message: 'Laptop updated successfully'})
