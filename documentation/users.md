@@ -8,5 +8,3 @@ regular user.
 | `admin`   | `admin`    | admin        |
 | `user123` | `password` | user         |
 | `user321` | `useruser` | user         |
-
-
